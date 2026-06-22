@@ -1,6 +1,21 @@
 #MAKING STUDENT MANAGEMENT SYSTEM
 #storing students data in dictionary
-students={}
+# MAKING STUDENT MANAGEMENT SYSTEM
+
+import json
+
+def loaddata():
+    try:
+        with open("students.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+
+def savedata(students):
+    with open("students.json", "w") as file:
+        json.dump(students, file, indent=4)
+
+students = loaddata()
 #now creating feature fucntions 
 ######
 #ADDING STUDENTS FUNCTION
@@ -19,12 +34,13 @@ def addingstudents(students):
           "Roll No":r,
           "Address":a
      }
+     savedata(students)
 #CREATING VIEW STUDENTS FUNCTION
 #####
 def viewstudent(students):
    for keys,values in  students.items():
        print(keys,values)
-
+   savedata(students)
 #creating a function to seach students via roll no
 def searchstudent(students):
       r=input("Enter roll no of student you want to search")
@@ -32,7 +48,7 @@ def searchstudent(students):
         print(students[r])
       else:
          print(f"Roll no {r}does not exist")
-
+      savedata(students)
 #creating a function for deleting a student
 def deletingstudent(students):
    r=input("Enter roll no of student ")
@@ -40,37 +56,42 @@ def deletingstudent(students):
       del students[r]
    else:
       print(f"Roll no {r }is not avaliable")
+   savedata(students)
 #making update students functions
 #update name 
 def updatename(students,r):
    if r in students:
-      students[r]["name"]=input("enter new name of student")
+      students[r]["Name"]=input("enter new name of student")
    else:
       print(f"Roll no {r}does not exist")
+   savedata(students)
  #update class
 def updateclass(students,r):
    if r in students:
       students[r]["Class"]=input("Enter new class of student")
    else:
       print(f"Roll no {r}does not exist")
+   savedata(students)
 #update adress 
 def updateadress(students,r):
    if r in students:
       students[r]["Address"]=input("Enter new adress of the student")
    else:
       print(f"Roll no {r}does not exist")
+   savedata(students)
 #changing roll no of student
 def changerollno(students,r):
    if r in students:
       newrollno=input("Enter new roll no")
       students[newrollno]=students[r]
-      students[newrollno]["Rollno"]=newrollno
+      students[newrollno]["Roll no"]=newrollno
       del students[r]
 
    else:
       print(f"roll no {r }not found")
+   savedata(students)
 #making menu for updation
-def updationmenu(students,updatename,updateclass,updateadress,changerollno):
+def updationmenu(students):
  while True:
    print("UPDATE MENU")
    print("1 update name")
@@ -97,6 +118,7 @@ def countingstudents(students):
  count=0
  for keys,values in students.items():
    count=count+1
+   return(count)
 #now creating menu for students managemtent system
 while True:
    print("1 Add students")
